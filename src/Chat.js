@@ -3,7 +3,8 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:9000", { autoConnect: false });
+const BACKEND_URL = "https://chat-backend-kxt3.onrender.com";
+const socket = io(BACKEND_URL, { autoConnect: false });
 
 export default function Chat() {
   // const [students, setStudents] = useState([]);
@@ -21,7 +22,7 @@ export default function Chat() {
     // Fetch initial data
     Promise.all([
       // axios.get("http://localhost:9000/api/students"),
-      axios.get("http://localhost:9000/api/messages"),
+      axios.get(`${BACKEND_URL}/api/messages`),
     ])
       .then(([messageRes]) => {
         // setStudents(studentRes.data);
