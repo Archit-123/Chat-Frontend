@@ -6,7 +6,7 @@ import { io } from "socket.io-client";
 const socket = io("http://localhost:9000", { autoConnect: false });
 
 export default function Chat() {
-  const [students, setStudents] = useState([]);
+  // const [students, setStudents] = useState([]);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const msgBodyRef = useRef(null);
@@ -20,11 +20,11 @@ export default function Chat() {
   useEffect(() => {
     // Fetch initial data
     Promise.all([
-      axios.get("http://localhost:9000/api/students"),
+      // axios.get("http://localhost:9000/api/students"),
       axios.get("http://localhost:9000/api/messages"),
     ])
-      .then(([studentRes, messageRes]) => {
-        setStudents(studentRes.data);
+      .then(([messageRes]) => {
+        // setStudents(studentRes.data);
         setMessages(messageRes.data);
       })
       .catch((error) => console.error("Error fetching data:", error));
