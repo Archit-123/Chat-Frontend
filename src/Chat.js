@@ -16,10 +16,8 @@ export default function Chat() {
     if (msgBodyRef.current) {
       msgBodyRef.current.scrollTop = msgBodyRef.current.scrollHeight;
     }
-  }, [messages]); // Runs every time messages update
-
+  }, [messages]);
   useEffect(() => {
-    // Fetch initial data
     Promise.all([
       // axios.get("http://localhost:9000/api/students"),
       axios.get(`${BACKEND_URL}/api/messages`),
@@ -30,17 +28,13 @@ export default function Chat() {
       })
       .catch((error) => console.error("Error fetching data:", error));
 
-    // Connect to socket only once
     socket.connect();
 
-    // Listen for new messages
     socket.on("receiveMessage", (newMessage) => {
-      // console.log("🔍 Message received:", newMessage);
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     });
 
     return () => {
-      // console.log("🔄 Cleanup: Removing event listener");
       socket.off("receiveMessage");
     };
   }, []);
@@ -53,11 +47,9 @@ export default function Chat() {
     event.preventDefault();
     if (!message.trim()) return;
 
-    console.log("Sending message:", message); // 🔍 Debugging
-    // Emit message via Socket.IO only (no need for axios POST)
+    console.log("Sending message:", message);
     socket.emit("sendMessage", message);
-
-    setMessage(""); // Clear input field
+    setMessage("");
   };
 
   return (
